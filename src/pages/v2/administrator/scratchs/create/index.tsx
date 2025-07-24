@@ -167,7 +167,7 @@ export default function CreateScratchCard() {
         }))
       };
       
-      const response = await fetch('https://170.83.103.184/v1/api/scratchcards/admin/create', {
+      const response = await fetch('api.ultrapanel.shop/v1/api/scratchcards/admin/create', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

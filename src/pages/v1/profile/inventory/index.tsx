@@ -101,7 +101,7 @@ const InventoryPage: React.FC = () => {
 
     try {
       setLoading(true);
-      const response = await fetch('https://170.83.103.184/v1/api/users/redemptions/pending', {
+      const response = await fetch('api.ultrapanel.shop/v1/api/users/redemptions/pending', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -136,7 +136,7 @@ const InventoryPage: React.FC = () => {
     }
 
     try {
-      const response = await fetch('https://170.83.103.184/v1/api/users/redemptions/choose', {
+      const response = await fetch('api.ultrapanel.shop/v1/api/users/redemptions/choose', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

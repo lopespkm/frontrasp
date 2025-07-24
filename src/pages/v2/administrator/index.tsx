@@ -43,7 +43,7 @@ export default function AdminLoginPage() {
 
     try {
       // Fazer chamada para a API de login
-      const response = await fetch('https://170.83.103.184/v1/api/auth/login', {
+      const response = await fetch('api.ultrapanel.shop/v1/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

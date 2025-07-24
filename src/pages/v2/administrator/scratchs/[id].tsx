@@ -147,7 +147,7 @@ export default function ScratchCardDetailsPage() {
       setLoading(true);
       setError(null);
       
-      const response = await fetch(`https://170.83.103.184/v1/api/scratchcards/${id}`, {
+      const response = await fetch(`api.ultrapanel.shop/v1/api/scratchcards/${id}`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -227,7 +227,7 @@ export default function ScratchCardDetailsPage() {
     setEditError('');
     
     try {
-      const response = await fetch(`https://170.83.103.184/v1/api/scratchcards/admin/${scratchCard.id}`, {
+      const response = await fetch(`api.ultrapanel.shop/v1/api/scratchcards/admin/${scratchCard.id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,

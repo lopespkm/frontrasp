@@ -280,7 +280,7 @@ export default function DepositModal({ isOpen, onClose, token }: DepositModalPro
         body: JSON.stringify({
           amount: amount,
           paymentMethod: 'PIX',
-          gateway: 'pluggou'
+          gateway: 'pixup'
         })
       });
       const data = await response.json();

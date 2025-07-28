@@ -261,8 +261,8 @@ export default function DepositModal({ isOpen, onClose, token }: DepositModalPro
 
   const handleGeneratePayment = async () => {
     const amount = parseFloat(customAmount.replace(',', '.'));
-    if (!amount || amount < 1) {
-      toast.error('Por favor, insira um valor válido (mínimo R$ 1,00)');
+    if (!amount || amount < 10) {
+      toast.error('Por favor, insira um valor válido (mínimo R$ 10,00)');
       return;
     }
     if (!token) {

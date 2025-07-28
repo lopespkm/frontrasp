@@ -409,7 +409,7 @@ export default function DepositModal({ isOpen, onClose, token }: DepositModalPro
                   />
                 </div>
                 <p className="text-neutral-500 text-xs sm:text-sm">
-                  Valor mínimo: R$ 1,00
+                  Valor mínimo: R$ 10,00
                 </p>
               </div>
 

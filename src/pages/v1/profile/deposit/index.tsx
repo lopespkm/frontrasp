@@ -334,7 +334,7 @@ export default function DepositPage() {
                   />
                 </div>
                 <p className="text-neutral-500 text-sm">
-                  Valor mínimo: R$ 1,00
+                  Valor mínimo: R$ 10,00
                 </p>
               </div>
             </div>

@@ -235,8 +235,10 @@ export default function WithdrawalsPage() {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify({}) // <-- adiciona body vazio
       });
+      
 
       if (!response.ok) {
         throw new Error('Erro ao aprovar saque');

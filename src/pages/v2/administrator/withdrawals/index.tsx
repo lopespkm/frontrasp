@@ -230,15 +230,13 @@ export default function WithdrawalsPage() {
         throw new Error('Token de autenticação não encontrado');
       }
 
-      const response = await fetch(`https://api.ultrapanel.shop/v2/api/admin/withdrawals/${withdrawalId}/approve`, {
+      const response = await fetch(`https://api.ultrapanel.shop/v1/api/admin/withdrawals/${withdrawalId}/approve`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({}) // <-- adiciona body vazio
+        }
       });
-      
 
       if (!response.ok) {
         throw new Error('Erro ao aprovar saque');

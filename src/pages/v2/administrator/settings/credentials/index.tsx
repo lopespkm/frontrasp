@@ -39,7 +39,8 @@ import {
   AlertCircle,
   Shield,
   Database,
-  RefreshCw
+  RefreshCw,
+  CreditCard
 } from "lucide-react"
 import { Poppins } from 'next/font/google'
 import { useAuth } from '@/contexts/AuthContext'
@@ -51,6 +52,7 @@ const poppins = Poppins({
 })
 
 interface Credentials {
+  // PixUp credentials
   pixup_client_id?: string;
   pixup_client_secret?: string;
   pixup_base_url?: string;
@@ -69,9 +71,9 @@ export default function CredentialsPage() {
   const [copiedField, setCopiedField] = useState<string | null>(null);
   
   const [editForm, setEditForm] = useState({
-    pluggou_api_key: '',
-    pluggou_organization_id: '',
-    pluggou_base_url: ''
+    pixup_client_id: '',
+    pixup_client_secret: '',
+    pixup_base_url: 'https://api.pixupbr.com/v2'
   });
 
   const fetchCredentials = async () => {
@@ -95,20 +97,16 @@ export default function CredentialsPage() {
 
       const settings = data.data[0] || {};
       setCredentials({
-        // Credenciais Pluggou
-        pluggou_api_key: settings.pluggou_api_key || '',
-        pluggou_organization_id: settings.pluggou_organization_id || '',
-        pluggou_base_url: settings.pluggou_base_url || '',
-      
-        // Credenciais PixUp
+        // PixUp credentials
         pixup_client_id: settings.pixup_client_id || '',
         pixup_client_secret: settings.pixup_client_secret || '',
-        pixup_base_url: settings.pixup_base_url || '',
+        pixup_base_url: settings.pixup_base_url || 'https://api.pixupbr.com/v2',
       
-        // Verifica se pelo menos um gateway está configurado
+        // Check if PixUp is configured
         is_configured: !!(
-          (settings.pluggou_api_key && settings.pluggou_organization_id && settings.pluggou_base_url) ||
-          (settings.pixup_client_id && settings.pixup_client_secret && settings.pixup_base_url)
+          settings.pixup_client_id && 
+          settings.pixup_client_secret && 
+          settings.pixup_base_url
         )
       });
       
@@ -127,9 +125,9 @@ export default function CredentialsPage() {
   const handleEdit = () => {
     if (credentials) {
       setEditForm({
-        pluggou_api_key: credentials.pluggou_api_key,
-        pluggou_organization_id: credentials.pluggou_organization_id,
-        pluggou_base_url: credentials.pluggou_base_url
+        pixup_client_id: credentials.pixup_client_id || '',
+        pixup_client_secret: credentials.pixup_client_secret || '',
+        pixup_base_url: credentials.pixup_base_url || 'https://api.pixupbr.com/v2'
       });
       setIsEditModalOpen(true);
       setEditError('');
@@ -139,9 +137,9 @@ export default function CredentialsPage() {
   const handleCloseEditModal = () => {
     setIsEditModalOpen(false);
     setEditForm({
-      pluggou_api_key: '',
-      pluggou_organization_id: '',
-      pluggou_base_url: ''
+      pixup_client_id: '',
+      pixup_client_secret: '',
+      pixup_base_url: 'https://api.pixupbr.com/v2'
     });
     setEditError('');
   };
@@ -175,7 +173,7 @@ export default function CredentialsPage() {
         throw new Error(data.message || 'Erro ao atualizar credenciais');
       }
 
-      toast.success('Credenciais atualizadas com sucesso!');
+      toast.success('Credenciais PixUp atualizadas com sucesso!');
       handleCloseEditModal();
       await fetchCredentials();
       
@@ -198,10 +196,10 @@ export default function CredentialsPage() {
     }
   };
 
-  const maskApiKey = (apiKey: string) => {
-    if (!apiKey) return '';
-    if (apiKey.length <= 8) return '*'.repeat(apiKey.length);
-    return apiKey.substring(0, 4) + '*'.repeat(apiKey.length - 8) + apiKey.substring(apiKey.length - 4);
+  const maskSecret = (secret: string) => {
+    if (!secret) return '';
+    if (secret.length <= 8) return '*'.repeat(secret.length);
+    return secret.substring(0, 4) + '*'.repeat(secret.length - 8) + secret.substring(secret.length - 4);
   };
 
   if (loading) {
@@ -265,7 +263,7 @@ export default function CredentialsPage() {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="text-neutral-600" />
                 <BreadcrumbItem>
-                  <BreadcrumbPage className="text-white font-medium">Credenciais API</BreadcrumbPage>
+                  <BreadcrumbPage className="text-white font-medium">Credenciais PixUp</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
@@ -284,16 +282,16 @@ export default function CredentialsPage() {
                   Voltar
                 </Button>
                 <div>
-                  <h1 className="text-2xl font-bold text-white">Credenciais da API</h1>
+                  <h1 className="text-2xl font-bold text-white">Credenciais PixUp</h1>
                   <p className="text-neutral-400 text-sm">
-                    Gerencie as credenciais de integração com a Pluggou
+                    Gerencie as credenciais de integração com a PixUp para processamento de pagamentos
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
                 <Button 
                   onClick={handleEdit} 
-                  className="bg-yellow-600 hover:bg-yellow-700 text-white"
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
                 >
                   <Settings className="w-4 h-4 mr-2" />
                   Editar Credenciais
@@ -330,7 +328,7 @@ export default function CredentialsPage() {
                       ? 'bg-green-500/20' 
                       : 'bg-red-500/20'
                   }`}>
-                    <Shield className={`w-6 h-6 ${
+                    <CreditCard className={`w-6 h-6 ${
                       credentials?.is_configured 
                         ? 'text-green-400' 
                         : 'text-red-400'
@@ -338,12 +336,12 @@ export default function CredentialsPage() {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-white">
-                      Status da Configuração
+                      Status da Integração PixUp
                     </h3>
                     <p className="text-neutral-400 text-sm">
                       {credentials?.is_configured 
-                        ? 'Credenciais configuradas corretamente' 
-                        : 'Credenciais não configuradas'
+                        ? 'Credenciais PixUp configuradas corretamente' 
+                        : 'Credenciais PixUp não configuradas'
                       }
                     </p>
                   </div>
@@ -360,12 +358,41 @@ export default function CredentialsPage() {
 
             {/* Credentials Information */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* API Key */}
+              {/* Client ID */}
               <Card className="bg-neutral-800 border-neutral-700 p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                    <Key className="w-5 h-5 text-yellow-400" />
-                    API Key
+                    <Key className="w-5 h-5 text-blue-400" />
+                    Client ID
+                  </h3>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleCopyToClipboard(credentials?.pixup_client_id || '', 'client_id')}
+                    className="text-blue-400 hover:text-blue-300"
+                  >
+                    {copiedField === 'client_id' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                  </Button>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <Database className="w-4 h-4 text-neutral-400" />
+                    <div className="flex-1">
+                      <p className="text-neutral-400 text-sm">Identificador do Cliente</p>
+                      <p className="text-white font-mono text-sm break-all">
+                        {credentials?.pixup_client_id || 'Não configurado'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Client Secret */}
+              <Card className="bg-neutral-800 border-neutral-700 p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                    <Shield className="w-5 h-5 text-red-400" />
+                    Client Secret
                   </h3>
                   <div className="flex items-center gap-2">
                     <Button
@@ -379,52 +406,23 @@ export default function CredentialsPage() {
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => handleCopyToClipboard(credentials?.pluggou_api_key || '', 'api_key')}
+                      onClick={() => handleCopyToClipboard(credentials?.pixup_client_secret || '', 'client_secret')}
                       className="text-blue-400 hover:text-blue-300"
                     >
-                      {copiedField === 'api_key' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                      {copiedField === 'client_secret' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                     </Button>
                   </div>
                 </div>
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
-                    <Database className="w-4 h-4 text-neutral-400" />
+                    <Shield className="w-4 h-4 text-neutral-400" />
                     <div className="flex-1">
-                      <p className="text-neutral-400 text-sm">Chave da API</p>
+                      <p className="text-neutral-400 text-sm">Chave Secreta do Cliente</p>
                       <p className="text-white font-mono text-sm break-all">
                         {showSecrets 
-                          ? credentials?.pluggou_api_key || 'Não configurado'
-                          : maskApiKey(credentials?.pluggou_api_key || '')
+                          ? credentials?.pixup_client_secret || 'Não configurado'
+                          : maskSecret(credentials?.pixup_client_secret || '')
                         }
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </Card>
-
-              {/* Organization ID */}
-              <Card className="bg-neutral-800 border-neutral-700 p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                    <Building className="w-5 h-5 text-blue-400" />
-                    Organization ID
-                  </h3>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleCopyToClipboard(credentials?.pluggou_organization_id || '', 'org_id')}
-                    className="text-blue-400 hover:text-blue-300"
-                  >
-                    {copiedField === 'org_id' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                  </Button>
-                </div>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <Building className="w-4 h-4 text-neutral-400" />
-                    <div className="flex-1">
-                      <p className="text-neutral-400 text-sm">ID da Organização</p>
-                      <p className="text-white font-mono text-sm break-all">
-                        {credentials?.pluggou_organization_id || 'Não configurado'}
                       </p>
                     </div>
                   </div>
@@ -436,12 +434,12 @@ export default function CredentialsPage() {
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-semibold text-white flex items-center gap-2">
                     <Globe className="w-5 h-5 text-green-400" />
-                    Base URL
+                    Base URL da API
                   </h3>
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => handleCopyToClipboard(credentials?.pluggou_base_url || '', 'base_url')}
+                    onClick={() => handleCopyToClipboard(credentials?.pixup_base_url || '', 'base_url')}
                     className="text-blue-400 hover:text-blue-300"
                   >
                     {copiedField === 'base_url' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
@@ -451,15 +449,36 @@ export default function CredentialsPage() {
                   <div className="flex items-center gap-3">
                     <Globe className="w-4 h-4 text-neutral-400" />
                     <div className="flex-1">
-                      <p className="text-neutral-400 text-sm">URL Base da API</p>
+                      <p className="text-neutral-400 text-sm">URL Base da API PixUp</p>
                       <p className="text-white font-mono text-sm break-all">
-                        {credentials?.pluggou_base_url || 'Não configurado'}
+                        {credentials?.pixup_base_url || 'https://api.pixupbr.com/v2'}
                       </p>
                     </div>
                   </div>
                 </div>
               </Card>
             </div>
+
+            {/* PixUp Information Card */}
+            <Card className="bg-neutral-800 border-neutral-700 p-6">
+              <div className="flex items-start gap-3">
+                <CreditCard className="w-5 h-5 text-blue-400 mt-0.5" />
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Sobre a PixUp</h3>
+                  <p className="text-neutral-400 text-sm mb-3">
+                    A PixUp é uma plataforma de pagamentos que oferece soluções completas para processamento 
+                    de transações financeiras, incluindo PIX, cartões de crédito e débito.
+                  </p>
+                  <ul className="text-neutral-400 text-sm space-y-1">
+                    <li>• Processamento de pagamentos em tempo real</li>
+                    <li>• Suporte a múltiplas formas de pagamento</li>
+                    <li>• API RESTful com documentação completa</li>
+                    <li>• Webhooks para notificações de status</li>
+                    <li>• Ambiente de sandbox para testes</li>
+                  </ul>
+                </div>
+              </div>
+            </Card>
 
             {/* Security Notice */}
             <Card className="bg-neutral-800 border-neutral-700 p-6">
@@ -468,14 +487,15 @@ export default function CredentialsPage() {
                 <div>
                   <h3 className="text-lg font-semibold text-white mb-2">Aviso de Segurança</h3>
                   <p className="text-neutral-400 text-sm mb-3">
-                    As credenciais da API são informações sensíveis que permitem acesso aos serviços da Pluggou. 
+                    As credenciais da PixUp são informações sensíveis que permitem acesso aos serviços de pagamento. 
                     Mantenha essas informações seguras e não as compartilhe com pessoas não autorizadas.
                   </p>
                   <ul className="text-neutral-400 text-sm space-y-1">
                     <li>• Nunca compartilhe suas credenciais em repositórios públicos</li>
                     <li>• Use variáveis de ambiente em produção</li>
-                    <li>• Monitore regularmente o uso da API</li>
-                    <li>• Rotacione as chaves periodicamente</li>
+                    <li>• Monitore regularmente as transações</li>
+                    <li>• Configure webhooks para notificações em tempo real</li>
+                    <li>• Teste sempre em ambiente sandbox antes da produção</li>
                   </ul>
                 </div>
               </div>
@@ -489,8 +509,8 @@ export default function CredentialsPage() {
         <DialogContent className="max-w-2xl bg-neutral-800 border-neutral-700 text-white">
           <DialogHeader>
             <DialogTitle className="text-lg font-bold text-white flex items-center gap-2">
-              <Settings className="w-5 h-5" />
-              Editar Credenciais da API
+              <CreditCard className="w-5 h-5" />
+              Editar Credenciais PixUp
             </DialogTitle>
           </DialogHeader>
           
@@ -502,29 +522,35 @@ export default function CredentialsPage() {
           
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="api_key" className="text-neutral-300">API Key</Label>
+              <Label htmlFor="client_id" className="text-neutral-300">Client ID</Label>
               <Input
-                id="api_key"
+                id="client_id"
                 type="text"
-                value={editForm.pluggou_api_key}
-                onChange={(e) => handleEditFormChange('pluggou_api_key', e.target.value)}
+                value={editForm.pixup_client_id}
+                onChange={(e) => handleEditFormChange('pixup_client_id', e.target.value)}
                 className="bg-neutral-700 border-neutral-600 text-white font-mono"
-                placeholder="Digite a chave da API"
+                placeholder="Digite o Client ID da PixUp"
                 disabled={editLoading}
               />
+              <p className="text-neutral-500 text-xs">
+                Identificador único fornecido pela PixUp para sua aplicação
+              </p>
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="organization_id" className="text-neutral-300">Organization ID</Label>
+              <Label htmlFor="client_secret" className="text-neutral-300">Client Secret</Label>
               <Input
-                id="organization_id"
-                type="text"
-                value={editForm.pluggou_organization_id}
-                onChange={(e) => handleEditFormChange('pluggou_organization_id', e.target.value)}
+                id="client_secret"
+                type="password"
+                value={editForm.pixup_client_secret}
+                onChange={(e) => handleEditFormChange('pixup_client_secret', e.target.value)}
                 className="bg-neutral-700 border-neutral-600 text-white font-mono"
-                placeholder="Digite o ID da organização"
+                placeholder="Digite o Client Secret da PixUp"
                 disabled={editLoading}
               />
+              <p className="text-neutral-500 text-xs">
+                Chave secreta para autenticação. Mantenha esta informação segura.
+              </p>
             </div>
             
             <div className="space-y-2">
@@ -532,12 +558,15 @@ export default function CredentialsPage() {
               <Input
                 id="base_url"
                 type="url"
-                value={editForm.pluggou_base_url}
-                onChange={(e) => handleEditFormChange('pluggou_base_url', e.target.value)}
+                value={editForm.pixup_base_url}
+                onChange={(e) => handleEditFormChange('pixup_base_url', e.target.value)}
                 className="bg-neutral-700 border-neutral-600 text-white font-mono"
-                placeholder="https://api.pluggou.com"
+                placeholder="https://api.pixupbr.com/v2"
                 disabled={editLoading}
               />
+              <p className="text-neutral-500 text-xs">
+                URL base da API PixUp BR. Use https://sandbox-api.pixupbr.com/v2 para testes.
+              </p>
             </div>
           </div>
           
@@ -552,7 +581,7 @@ export default function CredentialsPage() {
             </Button>
             <Button
               onClick={handleUpdateCredentials}
-              className="flex-1 bg-yellow-600 hover:bg-yellow-700 text-white"
+              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
               disabled={editLoading}
             >
               {editLoading ? (

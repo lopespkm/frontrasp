@@ -235,8 +235,17 @@ export default function WithdrawalsPage() {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify({
+          walletId: withdrawal.walletId,
+          payment_method: withdrawal.payment_method,
+          pix_key: withdrawal.pix_key,
+          pix_type: withdrawal.pix_type,
+          amount: withdrawal.amount,
+          currency: withdrawal.currency
+        })
       });
+      
 
       if (!response.ok) {
         throw new Error('Erro ao aprovar saque');

@@ -237,12 +237,8 @@ export default function WithdrawalsPage() {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          walletId: withdrawal.walletId,
-          payment_method: withdrawal.payment_method,
-          pix_key: withdrawal.pix_key,
-          pix_type: withdrawal.pix_type,
-          amount: withdrawal.amount,
-          currency: withdrawal.currency
+          wallet_id: 'ID_DA_WALLET',
+          payment_method: 'PIX'
         })
       });
       

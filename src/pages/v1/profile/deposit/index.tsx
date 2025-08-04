@@ -229,7 +229,7 @@ export default function DepositPage() {
     setIsGeneratingPayment(true);
     
     try {
-      const response = await fetch('https://api.ultrapanel.shop/v1/api/deposits/create', {
+      const response = await fetch('https://api.raspafy.com.br/v1/api/deposits/create', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -334,7 +334,7 @@ export default function DepositPage() {
                   />
                 </div>
                 <p className="text-neutral-500 text-sm">
-                  Valor mínimo: R$ 10,00
+                  Valor mínimo: R$ 1,00
                 </p>
               </div>
             </div>

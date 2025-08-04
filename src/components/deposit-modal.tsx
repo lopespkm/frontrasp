@@ -51,7 +51,7 @@ function PaymentModal({ isOpen, onClose, paymentData, token }: { isOpen: boolean
         try {
           // Tentar diferentes possíveis localizações do ID
           const paymentId = paymentData.payment?.id || paymentData.id || paymentData.deposit?.id;
-          const response = await fetch(`https://api.ultrapanel.shop/v1/api/deposits/${paymentId}/status`, {
+          const response = await fetch(`https://api.raspafy.com.br/v1/api/deposits/${paymentId}/status`, {
             method: 'GET',
             headers: {
               'Authorization': `Bearer ${token}`,
@@ -232,7 +232,7 @@ export default function DepositModal({ isOpen, onClose, token }: DepositModalPro
     const fetchSettings = async () => {
       setDepositBannerLoading(true);
       try {
-        const response = await fetch('https://api.ultrapanel.shop/v1/api/setting');
+        const response = await fetch('https://api.raspafy.com.br/v1/api/setting');
         const data = await response.json();
         if (response.ok && data.data && data.data[0]?.deposit_banner) {
           setDepositBannerUrl(data.data[0].deposit_banner);
@@ -261,8 +261,8 @@ export default function DepositModal({ isOpen, onClose, token }: DepositModalPro
 
   const handleGeneratePayment = async () => {
     const amount = parseFloat(customAmount.replace(',', '.'));
-    if (!amount || amount < 10) {
-      toast.error('Por favor, insira um valor válido (mínimo R$ 10,00)');
+    if (!amount || amount < 1) {
+      toast.error('Por favor, insira um valor válido (mínimo R$ 1,00)');
       return;
     }
     if (!token) {
@@ -271,7 +271,7 @@ export default function DepositModal({ isOpen, onClose, token }: DepositModalPro
     }
     setIsGeneratingPayment(true);
     try {
-      const response = await fetch('https://api.ultrapanel.shop/v1/api/deposits/create', {
+      const response = await fetch('https://api.raspafy.com.br/v1/api/deposits/create', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -409,7 +409,7 @@ export default function DepositModal({ isOpen, onClose, token }: DepositModalPro
                   />
                 </div>
                 <p className="text-neutral-500 text-xs sm:text-sm">
-                  Valor mínimo: R$ 10,00
+                  Valor mínimo: R$ 1,00
                 </p>
               </div>
 

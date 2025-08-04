@@ -51,9 +51,9 @@ const poppins = Poppins({
 })
 
 interface Credentials {
-  pluggou_api_key: string;
-  pluggou_organization_id: string;
-  pluggou_base_url: string;
+  pixup_api_key: string;
+  pixup_organization_id: string;
+  pixup_base_url: string;
   is_configured: boolean;
 }
 
@@ -523,7 +523,7 @@ export default function CredentialsPage() {
                 value={editForm.pluggou_base_url}
                 onChange={(e) => handleEditFormChange('pluggou_base_url', e.target.value)}
                 className="bg-neutral-700 border-neutral-600 text-white font-mono"
-                placeholder="https://api.pluggou.com"
+                placeholder="https://api.pixupbr.com/v2"
                 disabled={editLoading}
               />
             </div>

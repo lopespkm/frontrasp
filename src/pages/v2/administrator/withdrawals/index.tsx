@@ -231,17 +231,12 @@ export default function WithdrawalsPage() {
       }
 
       const response = await fetch(`https://api.ultrapanel.shop/v1/api/admin/withdrawals/${withdrawalId}/approve`, {
-        method: 'PATCH',
+        method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          wallet_id: 'ID_DA_WALLET',
-          payment_method: 'PIX'
-        })
+        }
       });
-      
 
       if (!response.ok) {
         throw new Error('Erro ao aprovar saque');

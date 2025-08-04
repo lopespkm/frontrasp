@@ -231,7 +231,7 @@ export default function WithdrawalsPage() {
       }
 
       const response = await fetch(`https://api.ultrapanel.shop/v1/api/admin/withdrawals/${withdrawalId}/approve`, {
-        method: 'POST',
+        method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'

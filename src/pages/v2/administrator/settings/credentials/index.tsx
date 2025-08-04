@@ -95,11 +95,23 @@ export default function CredentialsPage() {
 
       const settings = data.data[0] || {};
       setCredentials({
+        // Credenciais Pluggou
         pluggou_api_key: settings.pluggou_api_key || '',
         pluggou_organization_id: settings.pluggou_organization_id || '',
         pluggou_base_url: settings.pluggou_base_url || '',
-        is_configured: !!(settings.pluggou_api_key && settings.pluggou_organization_id && settings.pluggou_base_url)
+      
+        // Credenciais PixUp
+        pixup_client_id: settings.pixup_client_id || '',
+        pixup_client_secret: settings.pixup_client_secret || '',
+        pixup_base_url: settings.pixup_base_url || '',
+      
+        // Verifica se pelo menos um gateway está configurado
+        is_configured: !!(
+          (settings.pluggou_api_key && settings.pluggou_organization_id && settings.pluggou_base_url) ||
+          (settings.pixup_client_id && settings.pixup_client_secret && settings.pixup_base_url)
+        )
       });
+      
     } catch (err: any) {
       setError(err.message);
       toast.error(err.message);

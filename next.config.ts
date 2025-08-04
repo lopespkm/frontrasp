@@ -1,29 +1,23 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  /* config options here */
   reactStrictMode: true,
   images: {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'api.ultrapanel.shop',
+        hostname: 'api.raspaeganha.net',
+        port: '',
         pathname: '/uploads/**',
       },
+      // Supabase CDN
       {
         protocol: 'https',
         hostname: '**.supabase.co',
+        port: '',
         pathname: '/storage/v1/object/public/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'ultrapanel.shop',
-        pathname: '/**', // permite qualquer imagem do domínio
-      },
-      {
-        protocol: 'https',
-        hostname: 'sucessogrupo.shop',
-        pathname: '/imagemsras/**', // ajuste conforme necessário
-      },
+      }
     ],
   },
 };

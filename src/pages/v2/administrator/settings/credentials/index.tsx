@@ -51,9 +51,9 @@ const poppins = Poppins({
 })
 
 interface Credentials {
-  pluggou_api_key: string;
-  pluggou_organization_id: string;
-  pluggou_base_url: string;
+  pixup_client_id?: string;
+  pixup_client_secret?: string;
+  pixup_base_url?: string;
   is_configured: boolean;
 }
 

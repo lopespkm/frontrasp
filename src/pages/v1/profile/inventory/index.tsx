@@ -69,8 +69,8 @@ const InventoryPage: React.FC = () => {
   const fixImageUrl = (url: string | null): string | null => {
     if (!url) return null;
     
-    // Trocar raspa.ae por api.raspafy.com.br
-    let fixedUrl = url.replace('https://raspa.ae/', 'https://api.raspafy.com.br/');
+    // Trocar raspa.ae por api.ultrapanel.shop
+    let fixedUrl = url.replace('https://raspa.ae/', 'https://api.ultrapanel.shop/');
     
     // Remover 'prizes/' e 'scratchcards/' após 'uploads/'
     fixedUrl = fixedUrl.replace('/uploads/prizes/', '/uploads/');
@@ -101,7 +101,7 @@ const InventoryPage: React.FC = () => {
 
     try {
       setLoading(true);
-      const response = await fetch('https://api.raspafy.com.br/v1/api/users/redemptions/pending', {
+      const response = await fetch('https://api.ultrapanel.shop/v1/api/users/redemptions/pending', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -136,7 +136,7 @@ const InventoryPage: React.FC = () => {
     }
 
     try {
-      const response = await fetch('https://api.raspafy.com.br/v1/api/users/redemptions/choose', {
+      const response = await fetch('https://api.ultrapanel.shop/v1/api/users/redemptions/choose', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

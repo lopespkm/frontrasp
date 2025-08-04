@@ -167,7 +167,7 @@ export default function CreateScratchCard() {
         }))
       };
       
-      const response = await fetch('https://api.raspafy.com.br/v1/api/scratchcards/admin/create', {
+      const response = await fetch('https://api.ultrapanel.shop/v1/api/scratchcards/admin/create', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
